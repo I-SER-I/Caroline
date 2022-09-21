@@ -1,7 +1,7 @@
 {
   "name": "Caroline",
   "version": "1.0.0",
-  "description": "",
+  "description": "Task manager card graph visualization",
   "author": "I_SER_I",
   "private": true,
   "license": "MIT",
