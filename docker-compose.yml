@@ -1,0 +1,44 @@
+version: "3.9"
+
+networks:
+  default:
+    external: false
+    name: caroline-network
+
+services:
+  caroline-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_DEFAULT_PASSWORD}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/postgres:/data/postgres
+
+  caroline-backend:
+    build:
+      context: caroline-back
+      target: builder
+    ports:
+      - "3001:3001"
+    volumes:
+      - ../caroline-back:/app
+      - /app/node_modules
+    command: /bin/sh -c "npx prisma migrate dev --name new-migration && npm run start:dev"
+    depends_on:
+      - caroline-db
+    environment:
+      DATABASE_URL: "${CAROLINE_DB_URL}"
+
+  caroline-frontend:
+    build:
+      context: caroline-front
+      target: builder
+    ports:
+      - "3002:3002"
+    volumes:
+      - ../caroline-front:/app
+      - /app/node_modules
+    command: /bin/sh -c "npm run start"
+    depends_on:
+      - caroline-backend
