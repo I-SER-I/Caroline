@@ -7,6 +7,8 @@ import { HttpModule } from '@nestjs/axios';
 import { TrelloBoardsModule } from './boards/trello/trello.boards.module';
 import { TrelloMembersModule } from './members/trello/trello.members.module';
 import { TrelloCardsModule } from './cards/trello/trello.cards.module';
+import { TrelloStatesModule } from './states/trello/trello.states.module';
+import { TrelloTagsModule } from './tags/trello/trello.tags.module';
 
 @Module({
   imports: [
@@ -24,10 +26,8 @@ import { TrelloCardsModule } from './cards/trello/trello.cards.module';
     TrelloBoardsModule,
     TrelloMembersModule,
     TrelloCardsModule,
-    HttpModule.register({
-      timeout: 5000,
-      maxRedirects: 5,
-    }),
+    TrelloStatesModule,
+    TrelloTagsModule,
   ],
   controllers: [AppController],
   providers: [],

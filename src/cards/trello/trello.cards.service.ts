@@ -18,4 +18,5 @@ export class TrelloCardsService extends TrelloComponent {
     return trello.getAttachmentsOnCard(cardId);
   }
 }
+
 //TODO: Получить карточки --> Сохраняем ID
