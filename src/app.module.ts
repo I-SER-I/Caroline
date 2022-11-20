@@ -1,32 +1,33 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
+import { HttpModule } from '@nestjs/axios';
+import { TrelloBoardsModule } from './boards/trello/trello.boards.module';
+import { TrelloMembersModule } from './members/trello/trello.members.module';
+import { TrelloCardsModule } from './cards/trello/trello.cards.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: `.env`,
+    AuthModule.forRoot({
+      connectionUri: process.env.AUTH_CONNECTION_URI,
+      apiKey: process.env.AUTH_API_KEY,
+      appInfo: {
+        appName: process.env.AUTH_APP_NAME,
+        apiDomain: process.env.AUTH_API_DOMAIN,
+        websiteDomain: process.env.AUTH_WEBSITE_DOMAIN,
+      },
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('TYPEORM_HOST'),
-        port: configService.get('TYPEORM_PORT'),
-        username: configService.get('TYPEORM_USERNAME'),
-        password: configService.get('TYPEORM_PASSWORD'),
-        database: configService.get('TYPEORM_DATABASE'),
-        entities: [__dirname + '../**/*.entity.{ts,js}'],
-        synchronize: true,
-      }),
-    }),
-    TypeOrmModule.forFeature([User]),
+    PrismaModule,
     UsersModule,
+    TrelloBoardsModule,
+    TrelloMembersModule,
+    TrelloCardsModule,
+    HttpModule.register({
+      timeout: 5000,
+      maxRedirects: 5,
+    }),
   ],
   controllers: [AppController],
   providers: [],

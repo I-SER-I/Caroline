@@ -34,8 +34,8 @@ export class UsersController {
   @ApiOperation({ summary: 'Get user by id' })
   @ApiOkResponse({ description: 'User found' })
   @ApiNotFoundResponse({ description: 'User not found' })
-  @Get(':userId')
-  async getUserById(@Param('userId') userId: string): Promise<User> {
-    return this.usersService.getUserById(userId);
+  @Get(':id')
+  async getUserById(@Param('userId') id: string): Promise<User> {
+    return this.usersService.getUserById(id);
   }
 }
