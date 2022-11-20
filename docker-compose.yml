@@ -17,12 +17,12 @@ services:
 
   caroline-backend:
     build:
-      context: caroline-back
+      context: .
       target: builder
     ports:
       - "3001:3001"
     volumes:
-      - ../caroline-back:/app
+      - .:/app
       - /app/node_modules
     command: /bin/sh -c "npx prisma migrate dev --name new-migration && npm run start:dev"
     depends_on:
