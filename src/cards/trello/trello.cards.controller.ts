@@ -21,12 +21,17 @@ export class TrelloCardsController {
   }
 
   @UseGuards(new AuthGuard())
-  @Get(':id/attachments')
+  @Get('boards/:boardId/attachments/:cardId')
   async getCardAttachments(
-    @Param('id') id: string,
+    @Param('boardId') boardId: string,
+    @Param('cardId') cardId: string,
     @Session() session: SessionContainer,
   ) {
     const userId = session.getUserId();
-    return await this.trelloCardsService.getCardAttachment(userId, id);
+    return await this.trelloCardsService.getCardAttachment(
+      userId,
+      boardId,
+      cardId,
+    );
   }
 }

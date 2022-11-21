@@ -3,12 +3,12 @@ import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
-import { HttpModule } from '@nestjs/axios';
 import { TrelloBoardsModule } from './boards/trello/trello.boards.module';
 import { TrelloMembersModule } from './members/trello/trello.members.module';
 import { TrelloCardsModule } from './cards/trello/trello.cards.module';
 import { TrelloStatesModule } from './states/trello/trello.states.module';
 import { TrelloTagsModule } from './tags/trello/trello.tags.module';
+import { CredentialsModule } from './credentials/credentials.module';
 
 @Module({
   imports: [
@@ -28,6 +28,7 @@ import { TrelloTagsModule } from './tags/trello/trello.tags.module';
     TrelloCardsModule,
     TrelloStatesModule,
     TrelloTagsModule,
+    CredentialsModule,
   ],
   controllers: [AppController],
   providers: [],
