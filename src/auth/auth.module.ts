@@ -10,6 +10,7 @@ import {
   AuthModuleConfig,
   ConfigInjectionToken,
 } from './configs/config.interface';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [],
@@ -38,7 +39,7 @@ export class AuthModule implements NestModule {
         },
       ],
       exports: [],
-      imports: [],
+      imports: [UsersModule],
       module: AuthModule,
     };
   }

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ConflictException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBadRequestResponse,
@@ -8,6 +15,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Session } from '../auth/session.decorator';
+import { SessionContainer } from 'supertokens-node/recipe/session';
+import { deleteUser } from 'supertokens-node';
 import { CreateUserDto } from './dto/createUser.dto';
 import { User } from '@prisma/client';
 
@@ -37,5 +47,17 @@ export class UsersController {
   @Get(':id')
   async getUserById(@Param('userId') id: string): Promise<User> {
     return this.usersService.getUserById(id);
+  }
+
+  @Get('/me')
+  async getMe(@Session() session: SessionContainer): Promise<User> {
+    const me = await this.usersService.getUserById(session.getUserId());
+
+    if (!me) {
+      deleteUser(session.getUserId());
+      throw new ConflictException();
+    }
+
+    return me;
   }
 }
