@@ -12,14 +12,10 @@ export class UsersService {
     });
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.prismaService.user.findMany();
-  }
-
   async getUserById(userId: string): Promise<User> {
     return await this.prismaService.user.findFirst({
       where: {
-        superTokenId: userId,
+        id: userId,
       },
     });
   }

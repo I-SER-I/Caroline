@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, ConflictException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBadRequestResponse,
@@ -10,6 +10,9 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/createUser.dto';
 import { User } from '@prisma/client';
+import { Session } from '../decorators/session.decorator';
+import { SessionContainer } from 'supertokens-node/recipe/session';
+import { deleteUser } from 'supertokens-node';
 
 @ApiTags('users')
 @Controller('users')
@@ -20,22 +23,29 @@ export class UsersController {
   @ApiCreatedResponse({ description: 'User created' })
   @ApiBadRequestResponse({ description: 'User not created' })
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<any> {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createUserDto);
-  }
-
-  @ApiOperation({ summary: 'Get all users' })
-  @ApiOkResponse({ description: 'All Users' })
-  @Get()
-  async getUsers(): Promise<User[]> {
-    return this.usersService.getAllUsers();
   }
 
   @ApiOperation({ summary: 'Get user by id' })
   @ApiOkResponse({ description: 'User found' })
   @ApiNotFoundResponse({ description: 'User not found' })
-  @Get(':userId')
-  async getUserById(@Param('userId') userId: string): Promise<User> {
-    return this.usersService.getUserById(userId);
+  @Get()
+  async getUserById(@Session() session: SessionContainer): Promise<User> {
+    const userId = session.getUserId();
+    return await this.usersService.getUserById(userId);
+  }
+
+  @Get('/me')
+  async getMe(@Session() session: SessionContainer): Promise<User> {
+    const me = await this.getUserById(session);
+
+    if (!me) {
+      const userId = session.getUserId();
+      deleteUser(userId);
+      throw new ConflictException();
+    }
+
+    return me;
   }
 }
