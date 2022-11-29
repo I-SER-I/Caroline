@@ -30,11 +30,14 @@ model Project {
     userId       String
     boardId      String     @db.VarChar(255)
     serviceName  String     @db.VarChar(20)
+    cards        Card[]
 }
 
 model Card {
-    id          String      @db.VarChar(255) @id
-    projectId   String
+    id          Int         @default(autoincrement()) @id
+    cardId      String      @db.VarChar(255)
+    project     Project     @relation(fields: [projectId], references: [id])
+    projectId   Int
     X           Int
     Y           Int
 }
