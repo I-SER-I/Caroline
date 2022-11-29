@@ -11,14 +11,30 @@ datasource db {
 }
 
 model User {
-    id           Int        @default(autoincrement()) @id
-    superTokenId String     @db.VarChar(255)
-    name         String     @db.VarChar(255)
+    id           String     @db.VarChar(255) @id
+    username     String     @db.VarChar(255)
+    fullName     String     @db.VarChar(255)
     email        String     @db.VarChar(255)
+    projects     Project[]
 }
 
 model TrelloCredential {
     id          String      @db.VarChar(255) @id
     apiKey      String      @db.VarChar(255)
     oAuthToken  String      @db.VarChar(255)
+}
+
+model Project {
+    id           Int        @default(autoincrement()) @id
+    user         User       @relation(fields: [userId], references: [id])
+    userId       String
+    boardId      String     @db.VarChar(255)
+    serviceName  String     @db.VarChar(20)
+}
+
+model Card {
+    id          String      @db.VarChar(255) @id
+    projectId   String
+    X           Int
+    Y           Int
 }
