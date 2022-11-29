@@ -63,7 +63,7 @@ export class TrelloController {
     return await this.boardsService.deleteBoard(userId, boardId);
   }
 
-  @Get('members/boards/:boardId')
+  @Get('boards/:boardId/members')
   async getMembers(
     @Param('boardId') boardId: string,
     @Session() session: SessionContainer,
@@ -72,7 +72,7 @@ export class TrelloController {
     return await this.membersService.getBoardMembers(userId, boardId);
   }
 
-  @Get('states/boards/:boardId')
+  @Get('boards/:boardId/states')
   async getStates(
     @Param('boardId') boardId: string,
     @Session() session: SessionContainer,
@@ -81,7 +81,7 @@ export class TrelloController {
     return await this.statesService.getBoardStates(userId, boardId);
   }
 
-  @Get('tags/boards/:boardId')
+  @Get('boards/:boardId/tags')
   async getTags(
     @Param('boardId') boardId: string,
     @Session() session: SessionContainer,
@@ -90,7 +90,7 @@ export class TrelloController {
     return await this.tagsService.getBoardTags(userId, boardId);
   }
 
-  @Get('cards/boards/:boardId')
+  @Get('boards/:boardId/cards')
   async getCards(
     @Param('boardId') boardId: string,
     @Session() session: SessionContainer,
@@ -99,10 +99,10 @@ export class TrelloController {
     return await this.cardsService.getBoardCards(userId, boardId);
   }
 
-  @Get('cards/:cardId/boards/:boardId')
+  @Get('boards/:boardId/cards/:cardId')
   async getEdges(
-    @Param('cardId') cardId: string,
     @Param('boardId') boardId: string,
+    @Param('cardId') cardId: string,
     @Session() session: SessionContainer,
   ) {
     const userId = session.getUserId();
