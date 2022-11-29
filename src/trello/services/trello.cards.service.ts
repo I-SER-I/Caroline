@@ -11,16 +11,23 @@ export class TrelloCardsService extends TrelloService {
   async syncCards(userId: string, boardId: string) {
     const trello = await this.createTrello(userId);
     const allCards = await trello.getCardsOnBoard(boardId);
+    const project = await this.prismaService.project.findFirst({
+      where: {
+        userId: userId,
+        boardId: boardId,
+      },
+    });
     const cards = await this.prismaService.card.findMany({
       where: {
-        projectId: boardId,
+        projectId: project.id,
       },
     });
 
     const deletedCards = cards.filter(
       (carolineCard) =>
-        !allCards.map((apiCard) => apiCard.id).includes(carolineCard.id),
+        !allCards.map((apiCard) => apiCard.id).includes(carolineCard.cardId),
     );
+    console.log('deletedCards', deletedCards);
 
     for (const card of deletedCards) {
       await this.prismaService.card.delete({
@@ -30,19 +37,25 @@ export class TrelloCardsService extends TrelloService {
       });
     }
 
-    const newCards = allCards.filter(
-      (apiCard) =>
-        !cards.map((carolineCard) => carolineCard.id).includes(apiCard.id),
-    );
-
-    const randomXCoordinate = Math.floor(Math.random() * 100) * 10;
-    const randomYCoordinate = Math.floor(Math.random() * 100) * 10;
-
-    for (const card of newCards) {
-      await this.prismaService.card.delete({
-        where: {
-          id: card.id,
-        },
+    const newCards = allCards
+      .filter(
+        (apiCard) =>
+          !cards
+            .map((carolineCard) => carolineCard.cardId)
+            .includes(apiCard.id),
+      )
+      .map((card) => {
+        return {
+          cardId: card.id,
+          projectId: project.id,
+          X: Math.floor(Math.random() * 100) * 10,
+          Y: Math.floor(Math.random() * 100) * 10,
+        };
+      });
+    console.log('newCards', newCards);
+    if (newCards.length !== 0) {
+      await this.prismaService.card.createMany({
+        data: newCards,
       });
     }
   }
@@ -50,12 +63,32 @@ export class TrelloCardsService extends TrelloService {
   async getBoardCards(userId: string, boardId: string) {
     const trello = await this.createTrello(userId);
     const cards = await trello.getCardsOnBoard(boardId);
+    const project = await this.prismaService.project.findFirst({
+      where: {
+        userId: userId,
+        boardId: boardId,
+      },
+    });
+    await this.syncCards(userId, boardId);
+    const carolineCardsPositions = await this.prismaService.card.findMany({
+      where: {
+        projectId: project.id,
+      },
+    });
     return cards.map((card) => {
       return {
         id: card.id,
         title: card.name,
         workers: card.idMembers,
         tags: card.idLabels,
+        position: {
+          x: carolineCardsPositions.filter(
+            (carolineCard) => carolineCard.cardId == card.id,
+          )[0].X,
+          y: carolineCardsPositions.filter(
+            (carolineCard) => carolineCard.cardId == card.id,
+          )[0].Y,
+        },
         type: 'task',
         state: card.idList,
         description: card.desc,
