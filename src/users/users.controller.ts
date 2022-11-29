@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, ConflictException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  ConflictException,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBadRequestResponse,
@@ -13,6 +20,7 @@ import { User } from '@prisma/client';
 import { Session } from '../decorators/session.decorator';
 import { SessionContainer } from 'supertokens-node/recipe/session';
 import { deleteUser } from 'supertokens-node';
+import { AuthGuard } from '../auth/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -31,18 +39,20 @@ export class UsersController {
   @ApiOkResponse({ description: 'User found' })
   @ApiNotFoundResponse({ description: 'User not found' })
   @Get()
+  @UseGuards(new AuthGuard())
   async getUserById(@Session() session: SessionContainer): Promise<User> {
     const userId = session.getUserId();
     return await this.usersService.getUserById(userId);
   }
 
   @Get('/me')
+  @UseGuards(new AuthGuard())
   async getMe(@Session() session: SessionContainer): Promise<User> {
     const me = await this.getUserById(session);
 
     if (!me) {
       const userId = session.getUserId();
-      deleteUser(userId);
+      await deleteUser(userId);
       throw new ConflictException();
     }
 
