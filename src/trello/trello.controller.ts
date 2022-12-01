@@ -99,7 +99,7 @@ export class TrelloController {
     return await this.cardsService.getBoardCards(userId, boardId);
   }
 
-  @Get('boards/:boardId/cards/:cardId')
+  @Get('boards/:boardId/cards/:cardId/edges')
   async getEdges(
     @Param('boardId') boardId: string,
     @Param('cardId') cardId: string,
