@@ -29,6 +29,7 @@ export class TrelloBoardsService extends TrelloService {
     project = new ProjectDto();
     project.userId = userId;
     project.boardId = boardFilteredArray[0].id;
+    project.title = boardFilteredArray[0].name;
     project.serviceName = 'trello';
     return await this.prismaService.project.create({
       data: project,

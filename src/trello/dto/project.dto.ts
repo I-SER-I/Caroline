@@ -11,5 +11,8 @@ export class ProjectDto {
   boardId: string;
 
   @ApiProperty()
+  title: string;
+
+  @ApiProperty()
   serviceName: string;
 }
