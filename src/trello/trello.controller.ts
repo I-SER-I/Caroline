@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -30,9 +31,9 @@ export class TrelloController {
     private readonly cardsService: TrelloCardsService,
   ) {}
 
-  @Post('boards/:url')
+  @Post('boards')
   async addBoard(
-    @Param('url') url: string,
+    @Body() url: string,
     @Session() session: SessionContainer,
   ): Promise<ProjectDto> {
     const userId = session.getUserId();
