@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -33,9 +34,10 @@ export class TrelloController {
 
   @Post('boards')
   async addBoard(
-    @Body() url: string,
+    @Query('url') url: string,
     @Session() session: SessionContainer,
   ): Promise<ProjectDto> {
+    console.log(url);
     const userId = session.getUserId();
     return await this.boardsService.addBoardByUrl(userId, url);
   }
