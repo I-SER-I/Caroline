@@ -130,6 +130,9 @@ export class TrelloCardsStrategy implements CardsStrategy {
     if (newCards.length !== 0) {
       await this.prismaService.card.createMany({
         data: newCards,
+        include: {
+          project: true,
+        },
       });
     }
   }

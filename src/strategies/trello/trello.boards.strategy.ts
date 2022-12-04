@@ -57,7 +57,6 @@ export class TrelloBoardsStrategy implements BoardsStrategy {
   }
 
   async getBoards(userId: string): Promise<BoardDto[]> {
-    console.log(this.prismaService);
     return await this.prismaService.project.findMany({
       where: {
         userId: userId,
