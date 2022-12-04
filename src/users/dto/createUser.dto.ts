@@ -1,15 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiProperty()
+  @ApiProperty({
+    example: '050b2e99-bc8c-4c92-a650-756e8befec7d',
+    description: 'SuperTokens user id',
+  })
   readonly id: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'carolina@itmo.tu', description: 'User email' })
   readonly email: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'I_CAROLINA_I', description: 'User unique name' })
   readonly username: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'Carolina', description: 'User full name' })
   readonly fullName: string;
 }

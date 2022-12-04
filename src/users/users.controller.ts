@@ -27,7 +27,11 @@ import { AuthGuard } from '../auth/auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Create user' })
+  @ApiOperation({
+    summary: 'Create user',
+    description: 'Create user',
+    tags: ['users'],
+  })
   @ApiCreatedResponse({ description: 'User created' })
   @ApiBadRequestResponse({ description: 'User not created' })
   @Post()
