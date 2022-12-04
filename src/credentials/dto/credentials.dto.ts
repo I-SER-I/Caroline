@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ProjectManagementSystemTypeEnum } from '../../strategies/projectManagementSystemType.enum';
 
 export class CredentialsDto {
   @ApiProperty()
-  id: string;
+  userId: string;
 
   @ApiProperty()
   apiKey: string;
 
   @ApiProperty()
   oAuthToken: string;
+
+  @ApiProperty({
+    enum: ProjectManagementSystemTypeEnum,
+  })
+  apiService: string;
 }
