@@ -10,7 +10,7 @@ import {
   Delete,
   Get,
   Param,
-  Put,
+  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -34,7 +34,7 @@ export class BoardsController {
     private readonly trelloApi: TrelloApi,
   ) {}
 
-  @Put(':url')
+  @Post(':url')
   @ApiOperation({ summary: 'Add a board' })
   @ApiQuery({ name: 'type', enum: ProjectManagementSystemTypeEnum })
   @ApiOkResponse({
