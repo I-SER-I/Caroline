@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TrelloApi } from '../../api/trello.api';
 import { TagsStrategy } from '../abstractions/tags.strategy.interface';
 import { TagDto } from '../../tags/dto/tag.dto';
-import { color } from '../../states/color.const';
+import { color } from '../../tags/color.const';
 
 @Injectable()
 export class TrelloTagsStrategy implements TagsStrategy {

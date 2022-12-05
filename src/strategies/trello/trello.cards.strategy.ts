@@ -78,6 +78,7 @@ export class TrelloCardsStrategy implements CardsStrategy {
         description: card.desc,
         url: card.url,
         shortLink: card.shortLink,
+        img: card.cover?.scaled?.[3].url || null,
       };
     });
   }
