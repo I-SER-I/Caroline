@@ -59,28 +59,44 @@ export class TrelloCardsStrategy implements CardsStrategy {
         projectId: project.id,
       },
     });
-    return cards.map((card) => {
-      return {
-        id: card.id,
-        title: card.name,
-        workers: card.idMembers,
-        tags: card.idLabels,
-        position: {
-          x: carolineCardsPositions.filter(
-            (carolineCard) => carolineCard.cardId == card.id,
-          )[0].X,
-          y: carolineCardsPositions.filter(
-            (carolineCard) => carolineCard.cardId == card.id,
-          )[0].Y,
-        },
-        type: 'task',
-        state: card.idList,
-        description: card.desc,
-        url: card.url,
-        shortLink: card.shortLink,
-        img: card.cover?.scaled?.[3].url || null,
-      };
-    });
+    return await Promise.all(
+      cards.map(async (card) => {
+        return {
+          id: card.id,
+          title: card.name,
+          workers: card.idMembers,
+          tags: card.idLabels,
+          position: {
+            x: carolineCardsPositions.filter(
+              (carolineCard) => carolineCard.cardId == card.id,
+            )[0].X,
+            y: carolineCardsPositions.filter(
+              (carolineCard) => carolineCard.cardId == card.id,
+            )[0].Y,
+          },
+          type: 'task',
+          state: card.idList,
+          description: card.desc,
+          url: card.url,
+          shortLink: card.shortLink,
+          img: await this.getCover(userId, card.id),
+        };
+      }),
+    );
+  }
+
+  private async getCover(userId: string, cardId: string): Promise<string> {
+    const trello = await this.trelloApi.createTrello(userId);
+    const attachments = await trello.getAttachmentsOnCard(cardId);
+
+    const url = attachments.filter(
+      (attachment) => attachment.isUpload === true,
+    )[0]?.previews?.[4].url;
+    console.log(url);
+    if (url) {
+      return url;
+    }
+    return '';
   }
 
   private async syncCards(userId: string, boardId: string) {
@@ -102,7 +118,6 @@ export class TrelloCardsStrategy implements CardsStrategy {
       (carolineCard) =>
         !allCards.map((apiCard) => apiCard.id).includes(carolineCard.cardId),
     );
-    console.log('deletedCards', deletedCards);
 
     for (const card of deletedCards) {
       await this.prismaService.card.delete({
@@ -126,7 +141,6 @@ export class TrelloCardsStrategy implements CardsStrategy {
           Y: Math.floor(Math.random() * 100) * 10,
         };
       });
-    console.log('newCards', newCards);
     if (newCards.length !== 0) {
       await this.prismaService.project.update({
         where: {
