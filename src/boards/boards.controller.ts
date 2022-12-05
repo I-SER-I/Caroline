@@ -34,7 +34,7 @@ export class BoardsController {
     private readonly trelloApi: TrelloApi,
   ) {}
 
-  @Post(':url')
+  @Post()
   @ApiOperation({ summary: 'Add a board' })
   @ApiQuery({ name: 'type', enum: ProjectManagementSystemTypeEnum })
   @ApiOkResponse({
@@ -45,7 +45,7 @@ export class BoardsController {
   async addBoard(
     @Session() session: SessionContainer,
     @Query('type') type: ProjectManagementSystemTypeEnum,
-    @Param('url') url: string,
+    @Query('url') url: string,
   ): Promise<BoardDto> {
     const userId = session.getUserId();
     switch (type) {
