@@ -1,4 +1,4 @@
-FROM node:14 AS builder
+FROM node:latest AS builder
 
 # Create app directory
 WORKDIR /app
@@ -15,7 +15,7 @@ RUN npx prisma generate
 
 RUN npm run build
 
-FROM node:14
+FROM node:latest
 
 WORKDIR /app
 
