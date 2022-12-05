@@ -121,17 +121,22 @@ export class TrelloCardsStrategy implements CardsStrategy {
       .map((card) => {
         return {
           cardId: card.id,
-          projectId: project.id,
           X: Math.floor(Math.random() * 100) * 10,
           Y: Math.floor(Math.random() * 100) * 10,
         };
       });
     console.log('newCards', newCards);
     if (newCards.length !== 0) {
-      await this.prismaService.card.createMany({
-        data: newCards,
-        include: {
-          project: true,
+      await this.prismaService.project.update({
+        where: {
+          id: project.id,
+        },
+        data: {
+          cards: {
+            createMany: {
+              data: newCards,
+            },
+          },
         },
       });
     }
