@@ -48,4 +48,18 @@ export class CredentialsService {
       },
     });
   }
+
+  async credentialsExist(
+    userId: string,
+    type: ProjectManagementSystemTypeEnum,
+  ) {
+    const credential = await this.prismaService.credential.findFirst({
+      where: {
+        userId: userId,
+        apiService: type,
+      },
+    });
+
+    return credential !== null;
+  }
 }
