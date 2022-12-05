@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { TrelloApi } from '../../api/trello.api';
 import { TagsStrategy } from '../abstractions/tags.strategy.interface';
 import { TagDto } from '../../tags/dto/tag.dto';
+import { color } from '../../states/color.const';
 
 @Injectable()
 export class TrelloTagsStrategy implements TagsStrategy {
@@ -14,7 +15,7 @@ export class TrelloTagsStrategy implements TagsStrategy {
       return {
         id: label.id,
         name: label.name,
-        color: label.color.split('_')[0],
+        color: color[label.color.split('_')[0]],
       };
     });
   }

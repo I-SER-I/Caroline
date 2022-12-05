@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotImplementedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { TrelloApi } from '../../api/trello.api';
 import { PrismaService } from '../../prisma/prisma.service';
 import { BoardsStrategy } from '../abstractions/boards.strategy.interface';
