@@ -16,30 +16,30 @@ export class TrelloCardsStrategy implements CardsStrategy {
     const trelloCards = await this.getBoardCards(userId, boardId);
     const edges = [];
     for (const trelloCard of trelloCards) {
-      const cardAttachments = await trello.getAttachmentsOnCard(trelloCard.id);
-      const edge = cardAttachments
+      const attachments = await trello.getAttachmentsOnCard(trelloCard.id);
+      const cardAttachmentsLinks = attachments
         .filter(
           (attachment) =>
             attachment.url.includes('trello') && attachment.bytes === null,
         )
-        .map((attachment) => attachment.url)
-        .map((link) =>
-          trelloCards
-            .map((card) => {
-              return {
-                id: card.id,
-                shortLink: card.shortLink,
-              };
-            })
-            .filter((card) => link.includes(card.shortLink)),
-        )
-        .map((i) => {
-          return {
-            source: trelloCard.id,
-            target: i[0].id,
-          };
-        });
-      edges.push(edge);
+        .map((attachment) => attachment.url);
+      if (cardAttachmentsLinks.length !== 0) {
+        const edge = cardAttachmentsLinks
+          .map((link) =>
+            trelloCards
+              .map((card) => {
+                return { id: card.id, shortLink: card.shortLink };
+              })
+              .filter((card) => link.includes(card.shortLink)),
+          )
+          .map((i) => {
+            return {
+              source: trelloCard.id,
+              target: i[0].id,
+            };
+          });
+        edges.push(edge);
+      }
     }
     return edges;
   }
@@ -53,7 +53,7 @@ export class TrelloCardsStrategy implements CardsStrategy {
         boardId: boardId,
       },
     });
-    await this.syncCards(userId, boardId);
+    await this.syncCards(project, cards);
     const carolineCardsPositions = await this.prismaService.card.findMany({
       where: {
         projectId: project.id,
@@ -91,19 +91,11 @@ export class TrelloCardsStrategy implements CardsStrategy {
 
     const url = attachments.filter(
       (attachment) => attachment.isUpload === true,
-    )[0]?.previews?.[4].url;
+    )[0]?.previews?.[4]?.url;
     return url ? url : '';
   }
 
-  private async syncCards(userId: string, boardId: string) {
-    const trello = await this.trelloApi.createTrello(userId);
-    const allCards = await trello.getCardsOnBoard(boardId);
-    const project = await this.prismaService.project.findFirst({
-      where: {
-        userId: userId,
-        boardId: boardId,
-      },
-    });
+  private async syncCards(project: any, allCards: any) {
     const cards = await this.prismaService.card.findMany({
       where: {
         projectId: project.id,
@@ -133,8 +125,8 @@ export class TrelloCardsStrategy implements CardsStrategy {
       .map((card) => {
         return {
           cardId: card.id,
-          X: Math.floor(Math.random() * 100) * 10,
-          Y: Math.floor(Math.random() * 100) * 10,
+          X: 0,
+          Y: 0,
         };
       });
     if (newCards.length !== 0) {
