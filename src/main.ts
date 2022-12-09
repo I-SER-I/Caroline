@@ -8,7 +8,11 @@ async function start() {
   const port = process.env.PORT || 3001;
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
-    origin: [process.env.AUTH_WEBSITE_DOMAIN, 'http://localhost:3000'],
+    origin: [
+      process.env.AUTH_WEBSITE_DOMAIN,
+      'http://localhost:3000',
+      'http://imcaroline.me',
+    ],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
   });
