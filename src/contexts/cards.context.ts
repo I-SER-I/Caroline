@@ -11,11 +11,7 @@ export class CardsContext {
     return await this.cardsStrategy.getBoardCards(userId, boardId);
   }
 
-  async getBoardCardEdges(
-    userId: string,
-    boardId: string,
-    cardId: string,
-  ): Promise<EdgeDto[]> {
-    return await this.cardsStrategy.getBoardCardEdges(userId, boardId, cardId);
+  async getBoardCardEdges(userId: string, boardId: string): Promise<EdgeDto[]> {
+    return await this.cardsStrategy.getBoardCardEdges(userId, boardId);
   }
 }

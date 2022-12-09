@@ -11,37 +11,37 @@ export class TrelloCardsStrategy implements CardsStrategy {
     private readonly prismaService: PrismaService,
   ) {}
 
-  async getBoardCardEdges(
-    userId: string,
-    boardId: string,
-    cardId: string,
-  ): Promise<EdgeDto[]> {
+  async getBoardCardEdges(userId: string, boardId: string): Promise<EdgeDto[]> {
     const trello = await this.trelloApi.createTrello(userId);
-    const attachments = await trello.getAttachmentsOnCard(cardId);
     const trelloCards = await this.getBoardCards(userId, boardId);
-
-    return attachments
-      .filter(
-        (attachment) =>
-          attachment.url.includes('trello') && attachment.bytes === null,
-      )
-      .map((attachment) => attachment.url)
-      .map((link) =>
-        trelloCards
-          .map((card) => {
-            return {
-              id: card.id,
-              shortLink: card.shortLink,
-            };
-          })
-          .filter((card) => link.includes(card.shortLink)),
-      )
-      .map((i) => {
-        return {
-          source: cardId,
-          target: i[0].id,
-        };
-      });
+    const edges = [];
+    for (const trelloCard of trelloCards) {
+      const cardAttachments = await trello.getAttachmentsOnCard(trelloCard.id);
+      const edge = cardAttachments
+        .filter(
+          (attachment) =>
+            attachment.url.includes('trello') && attachment.bytes === null,
+        )
+        .map((attachment) => attachment.url)
+        .map((link) =>
+          trelloCards
+            .map((card) => {
+              return {
+                id: card.id,
+                shortLink: card.shortLink,
+              };
+            })
+            .filter((card) => link.includes(card.shortLink)),
+        )
+        .map((i) => {
+          return {
+            source: trelloCard.id,
+            target: i[0].id,
+          };
+        });
+      edges.push(edge);
+    }
+    return edges;
   }
 
   async getBoardCards(userId: string, boardId: string): Promise<any> {
@@ -92,11 +92,7 @@ export class TrelloCardsStrategy implements CardsStrategy {
     const url = attachments.filter(
       (attachment) => attachment.isUpload === true,
     )[0]?.previews?.[4].url;
-    console.log(url);
-    if (url) {
-      return url;
-    }
-    return '';
+    return url ? url : '';
   }
 
   private async syncCards(userId: string, boardId: string) {

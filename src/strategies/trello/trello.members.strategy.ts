@@ -17,9 +17,8 @@ export class TrelloMembersStrategy implements MembersStrategy {
     );
     return members.map((member) => ({
       id: member.id,
-      username: member.username,
-      fullName: member.fullName,
-      imageUrl: member.avatarUrl,
+      name: member.fullName,
+      img: member.avatarUrl + '/50.png',
     }));
   }
 }

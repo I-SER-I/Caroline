@@ -54,7 +54,7 @@ export class CardsController {
     return await this.cardsContext.getBoardCards(userId, boardId);
   }
 
-  @Get(':boardId/cards/:cardId/edges')
+  @Get(':boardId/edges')
   @ApiOperation({ summary: 'Get all edges' })
   @ApiQuery({ name: 'type', enum: ProjectManagementSystemTypeEnum })
   @ApiOkResponse({
@@ -66,7 +66,6 @@ export class CardsController {
     @Session() session: SessionContainer,
     @Query('type') type: ProjectManagementSystemTypeEnum,
     @Param('boardId') boardId: string,
-    @Param('cardId') cardId: string,
   ): Promise<EdgeDto[]> {
     const userId = session.getUserId();
     switch (type) {
@@ -79,6 +78,6 @@ export class CardsController {
       default:
         return [];
     }
-    return await this.cardsContext.getBoardCardEdges(userId, boardId, cardId);
+    return await this.cardsContext.getBoardCardEdges(userId, boardId);
   }
 }
