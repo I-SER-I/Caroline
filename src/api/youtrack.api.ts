@@ -1,21 +1,21 @@
 import { PrismaService } from '../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import * as Trello from 'trello';
+import { Youtrack } from 'youtrack-rest-client';
 
 @Injectable()
-export class TrelloApi {
+export class YouTrackApi {
   constructor(private readonly prismaService: PrismaService) {}
 
-  public async createTrello(userId: string): Promise<Trello> {
+  public async createYoutrack(userId: string): Promise<Youtrack> {
     const credentials = await this.prismaService.credential.findFirst({
       where: {
         userId: userId,
-        apiService: 'trello',
+        apiService: 'youtrack',
       },
     });
-    return new Trello(
-      credentials.config['apiKey'],
-      credentials.config['oAuthToken'],
-    );
+    return new Youtrack({
+      baseUrl: credentials.config['baseUrl'],
+      token: credentials.config['token'],
+    });
   }
 }

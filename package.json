@@ -27,11 +27,13 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.2",
     "@prisma/client": "^4.4.0",
+    "jira-connector": "^3.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "supertokens-node": "^12.1.1",
-    "trello": "^0.11.0"
+    "trello": "^0.11.0",
+    "youtrack-rest-client": "^1.6.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.4",
