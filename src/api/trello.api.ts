@@ -1,6 +1,6 @@
 import { PrismaService } from '../prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import * as Trello from 'trello';
+import Trello from 'trello';
 
 @Injectable()
 export class TrelloApi {
@@ -13,9 +13,8 @@ export class TrelloApi {
         apiService: 'trello',
       },
     });
-    return new Trello(
-      credentials.config['apiKey'],
-      credentials.config['oAuthToken'],
-    );
+    const apiKey = credentials.config['apiKey'];
+    const oAuthToken = credentials.config['oAuthToken'];
+    return new Trello(apiKey, oAuthToken);
   }
 }
