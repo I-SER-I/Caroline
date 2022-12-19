@@ -7,5 +7,5 @@ export interface BoardsStrategy {
 
   getBoardByBoardId(userId: string, boardId: string): Promise<BoardDto>;
 
-  deleteBoard(userId: string, boardId: string): Promise<BoardDto>;
+  deleteBoard(userId: string, boardId: string): Promise<any>;
 }

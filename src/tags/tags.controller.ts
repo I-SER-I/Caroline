@@ -14,6 +14,10 @@ import { TagsContext } from '../contexts/tags.context';
 import { TagDto } from './dto/tag.dto';
 import { TrelloTagsStrategy } from '../strategies/trello/trello.tags.strategy';
 import { TrelloApi } from '../api/trello.api';
+import { JiraTagsStrategy } from '../strategies/jira/jira.tags.strategy';
+import { JiraApi } from '../api/jira.api';
+import { YoutrackTagsStrategy } from '../strategies/youtrack/youtrack.tags.strategy';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -22,6 +26,8 @@ export class TagsController {
   constructor(
     private tagsContext: TagsContext,
     private readonly trelloApi: TrelloApi,
+    private readonly jiraApi: JiraApi,
+    private readonly youtrackApi: YouTrackApi,
   ) {}
 
   @Get(':boardId/tags')
@@ -41,6 +47,14 @@ export class TagsController {
     switch (type) {
       case ProjectManagementSystemTypeEnum.Trello:
         this.tagsContext.tagsStrategy = new TrelloTagsStrategy(this.trelloApi);
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.tagsContext.tagsStrategy = new JiraTagsStrategy(this.jiraApi);
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.tagsContext.tagsStrategy = new YoutrackTagsStrategy(
+          this.youtrackApi,
+        );
         break;
       default:
         return [];

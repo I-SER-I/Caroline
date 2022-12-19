@@ -4,11 +4,12 @@ import { StatesController } from './states.controller';
 import { StatesContext } from '../contexts/states.context';
 import { PrismaService } from '../prisma/prisma.service';
 import { TrelloApi } from '../api/trello.api';
-import { TrelloStatesStrategy } from '../strategies/trello/trello.states.strategy';
+import { JiraApi } from '../api/jira.api';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @Module({
   imports: [PrismaModule],
   controllers: [StatesController],
-  providers: [StatesContext, PrismaService, TrelloApi, TrelloStatesStrategy],
+  providers: [StatesContext, PrismaService, TrelloApi, JiraApi, YouTrackApi],
 })
 export class StatesModule {}

@@ -23,6 +23,10 @@ import { BoardsContext } from '../contexts/boards.context';
 import { BoardDto } from './dto/board.dto';
 import { TrelloBoardsStrategy } from '../strategies/trello/trello.boards.strategy';
 import { TrelloApi } from '../api/trello.api';
+import { JiraApi } from '../api/jira.api';
+import { JiraBoardsStrategy } from '../strategies/jira/jira.boards.strategy';
+import { YoutrackBoardsStrategy } from '../strategies/youtrack/youtrack.boards.strategy';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -32,6 +36,8 @@ export class BoardsController {
     private boardsContext: BoardsContext,
     private readonly prismaService: PrismaService,
     private readonly trelloApi: TrelloApi,
+    private readonly jiraApi: JiraApi,
+    private readonly youtrackApi: YouTrackApi,
   ) {}
 
   @Post()
@@ -52,6 +58,18 @@ export class BoardsController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.boardsContext.boardsStrategy = new TrelloBoardsStrategy(
           this.trelloApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.boardsContext.boardsStrategy = new JiraBoardsStrategy(
+          this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
+          this.youtrackApi,
           this.prismaService,
         );
         break;
@@ -78,6 +96,18 @@ export class BoardsController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.boardsContext.boardsStrategy = new TrelloBoardsStrategy(
           this.trelloApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.boardsContext.boardsStrategy = new JiraBoardsStrategy(
+          this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
+          this.youtrackApi,
           this.prismaService,
         );
         break;
@@ -108,6 +138,18 @@ export class BoardsController {
           this.prismaService,
         );
         break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.boardsContext.boardsStrategy = new JiraBoardsStrategy(
+          this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
+          this.youtrackApi,
+          this.prismaService,
+        );
+        break;
       default:
         return null;
     }
@@ -131,6 +173,18 @@ export class BoardsController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.boardsContext.boardsStrategy = new TrelloBoardsStrategy(
           this.trelloApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.boardsContext.boardsStrategy = new JiraBoardsStrategy(
+          this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
+          this.youtrackApi,
           this.prismaService,
         );
         break;

@@ -14,6 +14,10 @@ import { StatesContext } from '../contexts/states.context';
 import { StateDto } from './dto/state.dto';
 import { TrelloStatesStrategy } from '../strategies/trello/trello.states.strategy';
 import { TrelloApi } from '../api/trello.api';
+import { JiraApi } from '../api/jira.api';
+import { JiraStatesStrategy } from '../strategies/jira/jira.states.strategy';
+import { YoutrackStatesStrategy } from '../strategies/youtrack/youtrack.states.strategy';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -22,6 +26,8 @@ export class StatesController {
   constructor(
     private stateContext: StatesContext,
     private readonly trelloApi: TrelloApi,
+    private readonly jiraApi: JiraApi,
+    private readonly youtrackApi: YouTrackApi,
   ) {}
 
   @Get(':boardId/states')
@@ -42,6 +48,14 @@ export class StatesController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.stateContext.statesStrategy = new TrelloStatesStrategy(
           this.trelloApi,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.stateContext.statesStrategy = new JiraStatesStrategy(this.jiraApi);
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.stateContext.statesStrategy = new YoutrackStatesStrategy(
+          this.youtrackApi,
         );
         break;
       default:

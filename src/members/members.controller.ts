@@ -14,6 +14,10 @@ import { MembersContext } from '../contexts/members.context';
 import { MemberDto } from './dto/member.dto';
 import { TrelloMembersStrategy } from '../strategies/trello/trello.members.strategy';
 import { TrelloApi } from '../api/trello.api';
+import { JiraMembersStrategy } from '../strategies/jira/jira.members.strategy';
+import { JiraApi } from '../api/jira.api';
+import { YoutrackMembersStrategy } from '../strategies/youtrack/youtrack.members.strategy';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -22,6 +26,8 @@ export class MembersController {
   constructor(
     private membersContext: MembersContext,
     private readonly trelloApi: TrelloApi,
+    private readonly jiraApi: JiraApi,
+    private readonly youtrackApi: YouTrackApi,
   ) {}
 
   @Get(':boardId/members')
@@ -42,6 +48,16 @@ export class MembersController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.membersContext.membersStrategy = new TrelloMembersStrategy(
           this.trelloApi,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.membersContext.membersStrategy = new JiraMembersStrategy(
+          this.jiraApi,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.membersContext.membersStrategy = new YoutrackMembersStrategy(
+          this.youtrackApi,
         );
         break;
       default:

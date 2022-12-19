@@ -6,7 +6,6 @@ import {
   createMockContext,
   MockContext,
 } from '../../prisma/tests/prisma.service.mock';
-import { User } from '@prisma/client';
 import { usersStub } from './users.stub';
 import { CreateUserDto } from '../dto/createUser.dto';
 

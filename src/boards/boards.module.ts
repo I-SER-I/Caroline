@@ -4,11 +4,12 @@ import { BoardsController } from './boards.controller';
 import { BoardsContext } from '../contexts/boards.context';
 import { PrismaService } from '../prisma/prisma.service';
 import { TrelloApi } from '../api/trello.api';
-import { TrelloBoardsStrategy } from '../strategies/trello/trello.boards.strategy';
+import { JiraApi } from '../api/jira.api';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @Module({
   imports: [PrismaModule],
   controllers: [BoardsController],
-  providers: [BoardsContext, PrismaService, TrelloApi, TrelloBoardsStrategy],
+  providers: [BoardsContext, PrismaService, TrelloApi, JiraApi, YouTrackApi],
 })
 export class BoardsModule {}

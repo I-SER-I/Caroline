@@ -16,6 +16,10 @@ import { CardDto } from './dto/card.dto';
 import { EdgeDto } from './dto/edge.dto';
 import { TrelloCardsStrategy } from '../strategies/trello/trello.cards.strategy';
 import { TrelloApi } from '../api/trello.api';
+import { JiraApi } from '../api/jira.api';
+import { JiraCardsStrategy } from '../strategies/jira/jira.cards.starategy';
+import { YoutrackCardsStrategy } from '../strategies/youtrack/youtrack.cards.strategy';
+import { YouTrackApi } from '../api/youtrack.api';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -25,6 +29,8 @@ export class CardsController {
     private cardsContext: CardsContext,
     private readonly prismaService: PrismaService,
     private readonly trelloApi: TrelloApi,
+    private readonly jiraApi: JiraApi,
+    private readonly youtrackApi: YouTrackApi,
   ) {}
 
   @Get(':boardId/cards')
@@ -45,6 +51,12 @@ export class CardsController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.cardsContext.cardsStrategy = new TrelloCardsStrategy(
           this.trelloApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.cardsContext.cardsStrategy = new JiraCardsStrategy(
+          this.jiraApi,
           this.prismaService,
         );
         break;
@@ -72,6 +84,18 @@ export class CardsController {
       case ProjectManagementSystemTypeEnum.Trello:
         this.cardsContext.cardsStrategy = new TrelloCardsStrategy(
           this.trelloApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Jira:
+        this.cardsContext.cardsStrategy = new JiraCardsStrategy(
+          this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.YouTrack:
+        this.cardsContext.cardsStrategy = new YoutrackCardsStrategy(
+          this.youtrackApi,
           this.prismaService,
         );
         break;

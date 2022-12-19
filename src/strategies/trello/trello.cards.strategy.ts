@@ -14,6 +14,11 @@ export class TrelloCardsStrategy implements CardsStrategy {
   async getBoardCardEdges(userId: string, boardId: string): Promise<EdgeDto[]> {
     const trello = await this.trelloApi.createTrello(userId);
     const trelloCards = await this.getBoardCards(userId, boardId);
+    const trelloCardMap: Map<string, any> = new Map();
+    trelloCards.forEach((card) => {
+      trelloCardMap.set(card.url, card.id);
+    });
+
     const edges = [];
     for (const trelloCard of trelloCards) {
       const attachments = await trello.getAttachmentsOnCard(trelloCard.id);
@@ -24,20 +29,12 @@ export class TrelloCardsStrategy implements CardsStrategy {
         )
         .map((attachment) => attachment.url);
       if (cardAttachmentsLinks.length !== 0) {
-        const edge = cardAttachmentsLinks
-          .map((link) =>
-            trelloCards
-              .map((card) => {
-                return { id: card.id, shortLink: card.shortLink };
-              })
-              .filter((card) => link.includes(card.shortLink)),
-          )
-          .map((i) => {
-            return {
-              source: trelloCard.id,
-              target: i[0].id,
-            };
-          });
+        const edge = cardAttachmentsLinks.map((link) => {
+          return {
+            source: trelloCard.id,
+            target: trelloCardMap.get(link),
+          };
+        });
         edges.push(edge);
       }
     }
