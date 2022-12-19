@@ -20,7 +20,6 @@ import { CredentialsService } from './credentials.service';
 import { CredentialsDto } from './dto/credentials.dto';
 import { Session } from '../decorators/session.decorator';
 import { SessionContainer } from 'supertokens-node/recipe/session';
-import { CreateCredentialsDto } from './dto/createCredentials.dto';
 import { ProjectManagementSystemTypeEnum } from '../strategies/projectManagementSystemType.enum';
 
 @ApiTags('credentials')
@@ -38,15 +37,14 @@ export class CredentialsController {
     description: 'Credentials added',
     type: CredentialsDto,
   })
-  async addTrelloCredentials(
+  async addCredentials(
     @Session() session: SessionContainer,
     @Query('type') type: ProjectManagementSystemTypeEnum,
-    @Body() createCredentialsDto: CreateCredentialsDto,
+    @Body() config: string,
   ) {
     return await this.credentialsService.addCredentials({
       userId: session.getUserId(),
-      apiKey: createCredentialsDto.apiKey,
-      oAuthToken: createCredentialsDto.oAuthToken,
+      config: config,
       apiService: type,
     });
   }
@@ -63,12 +61,11 @@ export class CredentialsController {
   async updateCredentials(
     @Session() session: SessionContainer,
     @Query('type') type: ProjectManagementSystemTypeEnum,
-    @Body() createCredentialsDto: CreateCredentialsDto,
+    @Body() config: string,
   ) {
     return await this.credentialsService.updateCredentials({
       userId: session.getUserId(),
-      apiKey: createCredentialsDto.apiKey,
-      oAuthToken: createCredentialsDto.oAuthToken,
+      config: config,
       apiService: type,
     });
   }

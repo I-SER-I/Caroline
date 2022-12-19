@@ -38,8 +38,7 @@ describe('CredentialsService', () => {
   it('should be add credentials', async () => {
     const createCredentialDto = {
       userId: credentialsStub[0].userId,
-      apiKey: credentialsStub[0].apiKey,
-      oAuthToken: credentialsStub[0].oAuthToken,
+      config: credentialsStub[0].config,
       apiService: credentialsStub[0].apiService,
     };
 
@@ -48,6 +47,7 @@ describe('CredentialsService', () => {
       credentialsStub[0],
     );
 
+    // @ts-ignore
     const credential = await credentialsService.addCredentials(
       createCredentialDto,
     );
@@ -56,7 +56,6 @@ describe('CredentialsService', () => {
   });
 
   it('should be check if credential exist', async () => {
-    // @ts-ignore
     await mockCtx.prisma.credential.findFirst.mockResolvedValueOnce(
       credentialsStub[0],
     );

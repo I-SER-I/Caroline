@@ -23,8 +23,7 @@ model Credential {
     id          Int         @default(autoincrement()) @id
     User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String      @db.VarChar(255)
-    apiKey      String      @db.VarChar(255)
-    oAuthToken  String      @db.VarChar(255)
+    config      Json        @db.Json
     apiService  String      @db.VarChar(20)
 }
 

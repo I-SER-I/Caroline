@@ -10,6 +10,11 @@ async function start() {
   app.enableCors({
     origin: [
       process.env.AUTH_WEBSITE_DOMAIN,
+      'http://localhost:80',
+      'http://158.160.44.208',
+      'http://158.160.44.208:80',
+      'http://imcaroline.me',
+      'http://imcaroline.me:80',
     ],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
