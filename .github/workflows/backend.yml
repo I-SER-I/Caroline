@@ -23,10 +23,10 @@ jobs:
         run: npm run test --if-present
 
       - name: Build container
-        run: docker build -t ghcr.io/i-ser-i/caroline/backend:latest .
+        run: docker build -t ghcr.io/iseri/caroline/backend:latest .
 
       - name: Login Docker
         run: docker login -u iseri -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push container
-        run: docker push ghcr.io/i-ser-i/caroline/backend:latest
+        run: docker push ghcr.io/iseri/caroline/backend:latest
