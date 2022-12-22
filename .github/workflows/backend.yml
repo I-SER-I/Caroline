@@ -1,0 +1,23 @@
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Run tests
+        run: npm run jest
+
+      - name: Build container
+        run: docker build . -t caroline/backend:latest
+
+      - name: Login Docker
+        run: docker login -u isei -p {{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push container
+        run: docker push caroline/backend:latest
