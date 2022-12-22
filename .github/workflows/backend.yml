@@ -26,7 +26,7 @@ jobs:
         run: docker build . -t caroline/backend:latest
 
       - name: Login Docker
-        run: docker login -u isei -p ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u iseri -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push container
         run: docker push caroline/backend:latest
