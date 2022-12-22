@@ -11,7 +11,7 @@ jobs:
         with:
           node-version: 16
       - name: Run tests
-        run: npm run jest
+        run: npm run test
 
       - name: Build container
         run: docker build . -t caroline/backend:latest
