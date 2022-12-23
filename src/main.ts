@@ -20,9 +20,9 @@ async function start() {
   );
   app.enableCors({
     origin: [
+      'imcaroline.me',
       'http://imcaroline.me',
       'http://imcaroline.me:3000',
-      'http://imcaroline.me:3001',
       'http://imcaroline.me:80',
       'http://imcaroline.me:443',
       'https://imcaroline.me',
@@ -38,7 +38,12 @@ async function start() {
       'https://158.160.44.208:80',
       'https://158.160.44.208:443',
     ],
-    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      ...supertokens.getAllCORSHeaders(),
+    ],
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     credentials: true,
   });
