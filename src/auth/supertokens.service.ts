@@ -82,6 +82,7 @@ export class SupertokensService {
               throw new UnauthorizedException();
             },
           },
+          antiCsrf: 'NONE',
         }),
       ],
     });
