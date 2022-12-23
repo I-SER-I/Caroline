@@ -3,10 +3,19 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import supertokens from 'supertokens-node';
+import * as fs from 'fs';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
 
 async function start() {
   const port = process.env.PORT || 3001;
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('./secrets/private-key.pem'),
+    cert: fs.readFileSync('./secrets/public-certificate.pem'),
+  };
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new FastifyAdapter({ https: httpsOptions }),
+  );
   app.enableCors({
     origin: [
       process.env.AUTH_WEBSITE_DOMAIN,
