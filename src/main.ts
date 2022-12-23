@@ -19,9 +19,14 @@ async function start() {
     new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
-    origin: ['https://imcaroline.me'],
-    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
     credentials: true,
+    allowedHeaders: [
+      'Content-type, Accept',
+      ...supertokens.getAllCORSHeaders(),
+    ],
   });
   console.log(httpsOptions);
   const config = new DocumentBuilder()
