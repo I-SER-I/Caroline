@@ -47,7 +47,7 @@ export class SupertokensService {
 
                   console.log(response);
 
-                  if (response) {
+                  if (response.status === 'OK') {
                     const { id, email } = response.user;
                     const formFields = input.formFields;
 
