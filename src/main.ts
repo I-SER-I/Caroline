@@ -16,7 +16,7 @@ async function start() {
 
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
-    new FastifyAdapter({ https: httpsOptions }),
+    // new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
     origin: [
@@ -27,17 +27,14 @@ async function start() {
       'http://imcaroline.me:443',
       'https://imcaroline.me',
       'https://imcaroline.me:3000',
-      'https://imcaroline.me:3001',
       'https://imcaroline.me:80',
       'https://imcaroline.me:443',
       'http://158.160.44.208',
       'http://158.160.44.208:3000',
-      'http://158.160.44.208:3001',
       'http://158.160.44.208:80',
       'http://158.160.44.208:443',
       'https://158.160.44.208',
       'https://158.160.44.208:3000',
-      'https://158.160.44.208:3001',
       'https://158.160.44.208:80',
       'https://158.160.44.208:443',
     ],
