@@ -42,6 +42,7 @@ async function start() {
       'https://158.160.44.208:443',
     ],
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    methods: ['GET', 'PUT', 'POST', 'DELETE'],
     credentials: true,
   });
   console.log(httpsOptions);
