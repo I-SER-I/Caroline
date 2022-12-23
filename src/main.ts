@@ -19,14 +19,31 @@ async function start() {
     new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    credentials: true,
-    allowedHeaders: [
-      'Content-type, Accept',
-      ...supertokens.getAllCORSHeaders(),
+    origin: [
+      '*',
+      'http://imcaroline.me',
+      'http://imcaroline.me:3000',
+      'http://imcaroline.me:3001',
+      'http://imcaroline.me:80',
+      'http://imcaroline.me:443',
+      'https://imcaroline.me',
+      'https://imcaroline.me:3000',
+      'https://imcaroline.me:3001',
+      'https://imcaroline.me:80',
+      'https://imcaroline.me:443',
+      'http://http://158.160.44.208',
+      'http://http://158.160.44.208:3000',
+      'http://http://158.160.44.208:3001',
+      'http://http://158.160.44.208:80',
+      'http://http://158.160.44.208:443',
+      'https://http://158.160.44.208',
+      'https://http://158.160.44.208:3000',
+      'https://http://158.160.44.208:3001',
+      'https://http://158.160.44.208:80',
+      'https://http://158.160.44.208:443',
     ],
+    allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
+    credentials: true,
   });
   console.log(httpsOptions);
   const config = new DocumentBuilder()
