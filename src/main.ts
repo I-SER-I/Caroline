@@ -16,7 +16,7 @@ async function start() {
 
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
-    // new FastifyAdapter({ https: httpsOptions }),
+    new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
     origin: [
@@ -42,7 +42,6 @@ async function start() {
     methods: ['GET', 'PUT', 'POST', 'DELETE'],
     credentials: true,
   });
-  console.log(httpsOptions);
   const config = new DocumentBuilder()
     .setTitle('Caroline')
     .setVersion('1.0.0')
