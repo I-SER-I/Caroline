@@ -19,7 +19,7 @@ async function start() {
     new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
-    origin: '*',
+    origin: true,
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
   });
