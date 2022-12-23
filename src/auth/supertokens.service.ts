@@ -45,7 +45,9 @@ export class SupertokensService {
                     input,
                   );
 
-                  if (response.status === 'OK') {
+                  console.log(response);
+
+                  if (response) {
                     const { id, email } = response.user;
                     const formFields = input.formFields;
 
@@ -63,7 +65,7 @@ export class SupertokensService {
 
                       return response;
                     } catch (e) {
-                      deleteUser(id);
+                      await deleteUser(id);
                       throw e;
                     }
                   }
