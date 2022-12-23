@@ -19,17 +19,7 @@ async function start() {
     new FastifyAdapter({ https: httpsOptions }),
   );
   app.enableCors({
-    origin: [
-      process.env.AUTH_WEBSITE_DOMAIN,
-      'http://' + process.env.WEBSITE_DOMAIN,
-      'http://' + process.env.WEBSITE_DOMAIN + ':80',
-      'http://' + process.env.WEBSITE_DOMAIN + ':3000',
-      'http://' + process.env.WEBSITE_DOMAIN + ':3001',
-      'https://' + process.env.WEBSITE_DOMAIN,
-      'https://' + process.env.WEBSITE_DOMAIN + ':80',
-      'https://' + process.env.WEBSITE_DOMAIN + ':3000',
-      'https://' + process.env.WEBSITE_DOMAIN + ':3001',
-    ],
+    origin: '*',
     allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
     credentials: true,
   });
