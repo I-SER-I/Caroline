@@ -66,5 +66,6 @@ export class UsersController {
   @Get('/amogus')
   async amogus() {
     console.log('amogus');
+    return 'amogus';
   }
 }

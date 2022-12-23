@@ -3,12 +3,13 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
+import * as fs from 'fs';
 
 async function start() {
   const port = process.env.PORT || 3001;
   const httpsOptions = {
-    key: '',
-    cert: '',
+    key: fs.readFileSync('./secrets/private-key.pem'),
+    cert: fs.readFileSync('./secrets/public-certificate.pem'),
   };
 
   const app = await NestFactory.create<NestExpressApplication>(
@@ -30,6 +31,7 @@ async function start() {
   //   allowedHeaders: ['content-type', ...supertokens.getAllCORSHeaders()],
   //   credentials: true,
   // });
+  console.log(httpsOptions);
   const config = new DocumentBuilder()
     .setTitle('Caroline')
     .setVersion('1.0.0')
