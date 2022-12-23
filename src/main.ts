@@ -10,7 +10,7 @@ async function start() {
   const httpsOptions = {
     key: fs.readFileSync('./secrets/private-key.pem'),
     cert: fs.readFileSync('./secrets/public-certificate.pem'),
-    host: '0.0.0.0',
+    hostname: 'imcaroline.me',
   };
 
   const app = await NestFactory.create<NestExpressApplication>(
