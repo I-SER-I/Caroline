@@ -57,28 +57,26 @@ export class TrelloCardsStrategy implements CardsStrategy {
       },
     });
     return await Promise.all(
-      cards.map(async (card) => {
-        return {
-          id: card.id,
-          title: card.name,
-          workers: card.idMembers,
-          tags: card.idLabels,
-          position: {
-            x: carolineCardsPositions.filter(
-              (carolineCard) => carolineCard.cardId == card.id,
-            )[0].X,
-            y: carolineCardsPositions.filter(
-              (carolineCard) => carolineCard.cardId == card.id,
-            )[0].Y,
-          },
-          type: 'task',
-          state: card.idList,
-          description: card.desc,
-          url: card.url,
-          shortLink: card.shortLink,
-          img: await this.getCover(userId, card.id),
-        };
-      }),
+      cards.map(async (card) => ({
+        id: card.id,
+        title: card.name,
+        workers: card.idMembers,
+        tags: card.idLabels,
+        position: {
+          x: carolineCardsPositions.filter(
+            (carolineCard) => carolineCard.cardId == card.id,
+          )[0].X,
+          y: carolineCardsPositions.filter(
+            (carolineCard) => carolineCard.cardId == card.id,
+          )[0].Y,
+        },
+        type: 'task',
+        state: card.idList,
+        description: card.desc,
+        url: card.url,
+        shortLink: card.shortLink,
+        img: await this.getCover(userId, card.id),
+      })),
     );
   }
 

@@ -11,12 +11,10 @@ export class TrelloTagsStrategy implements TagsStrategy {
   async getBoardTags(userId: string, boardId: string): Promise<TagDto[]> {
     const trello = await this.trelloApi.createTrello(userId);
     const labels = await trello.getLabelsForBoard(boardId);
-    return labels.map((label) => {
-      return {
-        id: label.id,
-        name: label.name,
-        color: color[label.color.split('_')[0]],
-      };
-    });
+    return labels.map((label) => ({
+      color: color[label.color.split('_')[0]] ?? color.black,
+      id: label.id,
+      name: label.name,
+    }));
   }
 }
