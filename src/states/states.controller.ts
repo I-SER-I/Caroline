@@ -18,6 +18,8 @@ import { JiraApi } from '../api/jira.api';
 import { JiraStatesStrategy } from '../strategies/jira/jira.states.strategy';
 import { YoutrackStatesStrategy } from '../strategies/youtrack/youtrack.states.strategy';
 import { YouTrackApi } from '../api/youtrack.api';
+import { AsanaApi } from '../api/asana.api';
+import { AsanaStatesStrategy } from '../strategies/asana/asana.states.strategy';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -28,6 +30,7 @@ export class StatesController {
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
     private readonly youtrackApi: YouTrackApi,
+    private readonly asanaApi: AsanaApi,
   ) {}
 
   @Get(':boardId/states')
@@ -56,6 +59,11 @@ export class StatesController {
       case ProjectManagementSystemTypeEnum.YouTrack:
         this.stateContext.statesStrategy = new YoutrackStatesStrategy(
           this.youtrackApi,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.stateContext.statesStrategy = new AsanaStatesStrategy(
+          this.asanaApi,
         );
         break;
       default:

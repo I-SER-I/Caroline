@@ -18,8 +18,8 @@ import { TrelloCardsStrategy } from '../strategies/trello/trello.cards.strategy'
 import { TrelloApi } from '../api/trello.api';
 import { JiraApi } from '../api/jira.api';
 import { JiraCardsStrategy } from '../strategies/jira/jira.cards.starategy';
-import { YoutrackCardsStrategy } from '../strategies/youtrack/youtrack.cards.strategy';
-import { YouTrackApi } from '../api/youtrack.api';
+import { AsanaApi } from '../api/asana.api';
+import { AsanaCardsStrategy } from '../strategies/asana/asana.cards.strategy';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -30,7 +30,7 @@ export class CardsController {
     private readonly prismaService: PrismaService,
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
-    private readonly youtrackApi: YouTrackApi,
+    private readonly asanaApi: AsanaApi,
   ) {}
 
   @Get(':boardId/cards')
@@ -57,6 +57,12 @@ export class CardsController {
       case ProjectManagementSystemTypeEnum.Jira:
         this.cardsContext.cardsStrategy = new JiraCardsStrategy(
           this.jiraApi,
+          this.prismaService,
+        );
+        break;
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.cardsContext.cardsStrategy = new AsanaCardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;
@@ -93,9 +99,9 @@ export class CardsController {
           this.prismaService,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.cardsContext.cardsStrategy = new YoutrackCardsStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.cardsContext.cardsStrategy = new AsanaCardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;

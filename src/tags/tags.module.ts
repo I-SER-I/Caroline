@@ -4,12 +4,12 @@ import { TagsController } from './tags.controller';
 import { TagsContext } from '../contexts/tags.context';
 import { PrismaService } from '../prisma/prisma.service';
 import { TrelloApi } from '../api/trello.api';
-import { YouTrackApi } from '../api/youtrack.api';
 import { JiraApi } from '../api/jira.api';
+import { AsanaApi } from '../api/asana.api';
 
 @Module({
   imports: [PrismaModule],
   controllers: [TagsController],
-  providers: [TagsContext, PrismaService, TrelloApi, YouTrackApi, JiraApi],
+  providers: [TagsContext, PrismaService, TrelloApi, JiraApi, AsanaApi],
 })
 export class TagsModule {}

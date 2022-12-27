@@ -27,6 +27,8 @@ import { JiraApi } from '../api/jira.api';
 import { JiraBoardsStrategy } from '../strategies/jira/jira.boards.strategy';
 import { YoutrackBoardsStrategy } from '../strategies/youtrack/youtrack.boards.strategy';
 import { YouTrackApi } from '../api/youtrack.api';
+import { AsanaApi } from '../api/asana.api';
+import { AsanaBoardsStrategy } from '../strategies/asana/asana.boards.strategy';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -37,7 +39,7 @@ export class BoardsController {
     private readonly prismaService: PrismaService,
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
-    private readonly youtrackApi: YouTrackApi,
+    private readonly asanaApi: AsanaApi,
   ) {}
 
   @Post()
@@ -67,9 +69,9 @@ export class BoardsController {
           this.prismaService,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.boardsContext.boardsStrategy = new AsanaBoardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;
@@ -105,9 +107,9 @@ export class BoardsController {
           this.prismaService,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.boardsContext.boardsStrategy = new AsanaBoardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;
@@ -144,9 +146,9 @@ export class BoardsController {
           this.prismaService,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.boardsContext.boardsStrategy = new AsanaBoardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;
@@ -182,9 +184,9 @@ export class BoardsController {
           this.prismaService,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.boardsContext.boardsStrategy = new YoutrackBoardsStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.boardsContext.boardsStrategy = new AsanaBoardsStrategy(
+          this.asanaApi,
           this.prismaService,
         );
         break;

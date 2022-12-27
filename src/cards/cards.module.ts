@@ -5,11 +5,11 @@ import { CardsContext } from '../contexts/cards.context';
 import { PrismaService } from '../prisma/prisma.service';
 import { TrelloApi } from '../api/trello.api';
 import { JiraApi } from '../api/jira.api';
-import { YouTrackApi } from '../api/youtrack.api';
+import { AsanaApi } from '../api/asana.api';
 
 @Module({
   imports: [PrismaModule],
   controllers: [CardsController],
-  providers: [CardsContext, PrismaService, TrelloApi, JiraApi, YouTrackApi],
+  providers: [CardsContext, PrismaService, TrelloApi, JiraApi, AsanaApi],
 })
 export class CardsModule {}

@@ -12,12 +12,12 @@ import { SessionContainer } from 'supertokens-node/lib/build/recipe/session';
 import { ProjectManagementSystemTypeEnum } from '../strategies/projectManagementSystemType.enum';
 import { MembersContext } from '../contexts/members.context';
 import { MemberDto } from './dto/member.dto';
-import { TrelloMembersStrategy } from '../strategies/trello/trello.members.strategy';
 import { TrelloApi } from '../api/trello.api';
-import { JiraMembersStrategy } from '../strategies/jira/jira.members.strategy';
+import { TrelloMembersStrategy } from '../strategies/trello/trello.members.strategy';
 import { JiraApi } from '../api/jira.api';
-import { YoutrackMembersStrategy } from '../strategies/youtrack/youtrack.members.strategy';
-import { YouTrackApi } from '../api/youtrack.api';
+import { JiraMembersStrategy } from '../strategies/jira/jira.members.strategy';
+import { AsanaApi } from '../api/asana.api';
+import { AsanaMembersStrategy } from '../strategies/asana/asana.members.strategy';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -27,7 +27,7 @@ export class MembersController {
     private membersContext: MembersContext,
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
-    private readonly youtrackApi: YouTrackApi,
+    private readonly asanaApi: AsanaApi,
   ) {}
 
   @Get(':boardId/members')
@@ -55,9 +55,9 @@ export class MembersController {
           this.jiraApi,
         );
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.membersContext.membersStrategy = new YoutrackMembersStrategy(
-          this.youtrackApi,
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.membersContext.membersStrategy = new AsanaMembersStrategy(
+          this.asanaApi,
         );
         break;
       default:

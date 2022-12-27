@@ -12,12 +12,12 @@ import { SessionContainer } from 'supertokens-node/lib/build/recipe/session';
 import { ProjectManagementSystemTypeEnum } from '../strategies/projectManagementSystemType.enum';
 import { TagsContext } from '../contexts/tags.context';
 import { TagDto } from './dto/tag.dto';
-import { TrelloTagsStrategy } from '../strategies/trello/trello.tags.strategy';
 import { TrelloApi } from '../api/trello.api';
-import { JiraTagsStrategy } from '../strategies/jira/jira.tags.strategy';
+import { TrelloTagsStrategy } from '../strategies/trello/trello.tags.strategy';
 import { JiraApi } from '../api/jira.api';
-import { YoutrackTagsStrategy } from '../strategies/youtrack/youtrack.tags.strategy';
-import { YouTrackApi } from '../api/youtrack.api';
+import { JiraTagsStrategy } from '../strategies/jira/jira.tags.strategy';
+import { AsanaApi } from '../api/asana.api';
+import { AsanaTagsStrategy } from '../strategies/asana/asana.tags.strategy';
 
 @UseGuards(AuthGuard)
 @Controller('boards')
@@ -27,7 +27,7 @@ export class TagsController {
     private tagsContext: TagsContext,
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
-    private readonly youtrackApi: YouTrackApi,
+    private readonly asanaApi: AsanaApi,
   ) {}
 
   @Get(':boardId/tags')
@@ -51,10 +51,8 @@ export class TagsController {
       case ProjectManagementSystemTypeEnum.Jira:
         this.tagsContext.tagsStrategy = new JiraTagsStrategy(this.jiraApi);
         break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.tagsContext.tagsStrategy = new YoutrackTagsStrategy(
-          this.youtrackApi,
-        );
+      case ProjectManagementSystemTypeEnum.Asana:
+        this.tagsContext.tagsStrategy = new AsanaTagsStrategy(this.asanaApi);
         break;
       default:
         return [];
