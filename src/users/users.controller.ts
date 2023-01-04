@@ -62,10 +62,4 @@ export class UsersController {
 
     return me;
   }
-
-  @Get('/amogus')
-  async amogus() {
-    console.log('amogus');
-    return 'amogus';
-  }
 }

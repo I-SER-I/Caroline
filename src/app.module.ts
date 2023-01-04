@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './users/users.module';
 import { CredentialsModule } from './credentials/credentials.module';
 import { BoardsModule } from './boards/boards.module';
+import { CardsModule } from './cards/cards.module';
 import { MembersModule } from './members/members.module';
 import { TagsModule } from './tags/tags.module';
 import { StatesModule } from './states/states.module';
-import { CardsModule } from './cards/cards.module';
 
 @Module({
   imports: [
