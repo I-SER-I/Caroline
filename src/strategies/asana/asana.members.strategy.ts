@@ -13,11 +13,13 @@ export class AsanaMembersStrategy implements MembersStrategy {
         async (member) => await asana.users.getUser(member.gid),
       ),
     );
-    return members.map((member) => ({
-      id: member.gid,
-      name: member.name,
-      fullName: member.name,
-      imageUrl: member.photo?.image_60x60 ?? '',
-    }));
+    return members.map(
+      (member) =>
+        ({
+          id: member.gid,
+          name: member.name,
+          imageUrl: member.photo?.image_60x60 ?? '',
+        } as MemberDto),
+    );
   }
 }

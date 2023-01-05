@@ -15,10 +15,13 @@ export class TrelloMembersStrategy implements MembersStrategy {
         async (boardMember) => await trello.getMember(boardMember.id),
       ),
     );
-    return members.map((member) => ({
-      id: member.id,
-      name: member.fullName,
-      img: member.avatarUrl + '/50.png',
-    }));
+    return members.map(
+      (member) =>
+        ({
+          id: member.id,
+          name: member.fullName,
+          imageUrl: member.avatarUrl + '/50.png',
+        } as MemberDto),
+    );
   }
 }

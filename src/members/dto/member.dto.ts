@@ -9,15 +9,9 @@ export class MemberDto {
 
   @ApiProperty({
     example: 'I_CAROLINA_I',
-    description: 'The username of the member',
+    description: 'The name of the member',
   })
-  username: string;
-
-  @ApiProperty({
-    example: 'Carolina Makarevich',
-    description: 'The full name of the member',
-  })
-  fullName: string;
+  name: string;
 
   @ApiProperty({
     example: 'https://trello-avatars.s3.amazonaws.com/61f83e93caafc8619cec994b',

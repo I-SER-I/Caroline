@@ -14,8 +14,7 @@ export class JiraMembersStrategy implements MembersStrategy {
         (member) =>
           ({
             id: member.accountId,
-            username: member.displayName,
-            fullName: member.displayName,
+            name: member.displayName,
             imageUrl: member.avatarUrls['48x48'],
           } as MemberDto),
       );
