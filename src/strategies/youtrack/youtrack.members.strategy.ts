@@ -15,8 +15,8 @@ export class YoutrackMembersStrategy implements MembersStrategy {
     return members.map(
       (member) =>
         ({
-          username: member.name,
-          fullName: member.fullName,
+          id: member.id,
+          name: member.name,
           imageUrl: youtrack['baseUrl'].split('/api')[0] + member.avatarUrl,
         } as MemberDto),
     );
