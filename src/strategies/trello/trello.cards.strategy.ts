@@ -29,16 +29,14 @@ export class TrelloCardsStrategy implements CardsStrategy {
         )
         .map((attachment) => attachment.url);
       if (cardAttachmentsLinks.length !== 0) {
-        const edge = cardAttachmentsLinks.map((link) => {
-          return {
-            source: trelloCard.id,
-            target: trelloCardMap.get(link),
-          };
-        });
+        const edge = cardAttachmentsLinks.flatMap((link) => ({
+          source: trelloCard.id,
+          target: trelloCardMap.get(link),
+        }));
         edges.push(edge);
       }
     }
-    return edges;
+    return edges.flatMap((edge) => edge);
   }
 
   async getBoardCards(userId: string, boardId: string): Promise<any> {
