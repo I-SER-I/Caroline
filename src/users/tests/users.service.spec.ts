@@ -48,7 +48,6 @@ describe('UsersService', () => {
       id: usersStub[0].id,
       email: usersStub[0].email,
       username: usersStub[0].username,
-      fullName: usersStub[0].fullName,
     };
     const user = await usersService.create(createUserDto);
     await expect(user).toEqual(usersStub[0]);
