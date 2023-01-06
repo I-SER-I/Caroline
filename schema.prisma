@@ -13,7 +13,6 @@ datasource db {
 model User {
     id           String     @db.VarChar(255) @id
     username     String     @db.VarChar(255)
-    fullName     String     @db.VarChar(255)
     email        String     @db.VarChar(255)
     projects     Project[]
     Credentials  Credential[]
@@ -33,6 +32,7 @@ model Project {
     userId       String     @db.VarChar(255)
     boardId      String     @db.VarChar(255)
     title        String     @db.VarChar(100)
+    url          String     @db.VarChar(255)
     serviceName  String     @db.VarChar(20)
     cards        Card[]
 }
