@@ -16,8 +16,6 @@ import { TrelloStatesStrategy } from '../strategies/trello/trello.states.strateg
 import { TrelloApi } from '../api/trello.api';
 import { JiraApi } from '../api/jira.api';
 import { JiraStatesStrategy } from '../strategies/jira/jira.states.strategy';
-import { YoutrackStatesStrategy } from '../strategies/youtrack/youtrack.states.strategy';
-import { YouTrackApi } from '../api/youtrack.api';
 import { AsanaApi } from '../api/asana.api';
 import { AsanaStatesStrategy } from '../strategies/asana/asana.states.strategy';
 
@@ -29,7 +27,6 @@ export class StatesController {
     private stateContext: StatesContext,
     private readonly trelloApi: TrelloApi,
     private readonly jiraApi: JiraApi,
-    private readonly youtrackApi: YouTrackApi,
     private readonly asanaApi: AsanaApi,
   ) {}
 
@@ -55,11 +52,6 @@ export class StatesController {
         break;
       case ProjectManagementSystemTypeEnum.Jira:
         this.stateContext.statesStrategy = new JiraStatesStrategy(this.jiraApi);
-        break;
-      case ProjectManagementSystemTypeEnum.YouTrack:
-        this.stateContext.statesStrategy = new YoutrackStatesStrategy(
-          this.youtrackApi,
-        );
         break;
       case ProjectManagementSystemTypeEnum.Asana:
         this.stateContext.statesStrategy = new AsanaStatesStrategy(
