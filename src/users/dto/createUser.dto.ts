@@ -12,7 +12,4 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'I_CAROLINA_I', description: 'User unique name' })
   readonly username: string;
-
-  @ApiProperty({ example: 'Carolina', description: 'User full name' })
-  readonly fullName: string;
 }

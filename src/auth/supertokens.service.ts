@@ -27,9 +27,6 @@ export class SupertokensService {
               {
                 id: 'username',
               },
-              {
-                id: 'fullname',
-              },
             ],
           },
           override: {
@@ -57,9 +54,6 @@ export class SupertokensService {
                         email,
                         username: formFields.find(
                           (formItem) => formItem.id === 'username',
-                        ).value,
-                        fullName: formFields.find(
-                          (formItem) => formItem.id === 'fullname',
                         ).value,
                       });
 
