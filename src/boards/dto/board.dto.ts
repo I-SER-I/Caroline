@@ -22,6 +22,12 @@ export class BoardDto {
   @ApiProperty({ example: 'MyBoard', description: 'PMS board name' })
   title: string;
 
+  @ApiProperty({
+    example: 'https://trello.com/b/123456/name',
+    description: 'PMS board url',
+  })
+  url: string;
+
   @ApiProperty({ example: 'trello', description: 'PMS type' })
   serviceName: string;
 }

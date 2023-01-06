@@ -25,8 +25,6 @@ import { TrelloBoardsStrategy } from '../strategies/trello/trello.boards.strateg
 import { TrelloApi } from '../api/trello.api';
 import { JiraApi } from '../api/jira.api';
 import { JiraBoardsStrategy } from '../strategies/jira/jira.boards.strategy';
-import { YoutrackBoardsStrategy } from '../strategies/youtrack/youtrack.boards.strategy';
-import { YouTrackApi } from '../api/youtrack.api';
 import { AsanaApi } from '../api/asana.api';
 import { AsanaBoardsStrategy } from '../strategies/asana/asana.boards.strategy';
 
@@ -83,39 +81,17 @@ export class BoardsController {
 
   @Get()
   @ApiOperation({ summary: 'Get boards' })
-  @ApiQuery({ name: 'type', enum: ProjectManagementSystemTypeEnum })
   @ApiOkResponse({
     description: 'Boards',
     type: [BoardDto],
   })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  async getBoards(
-    @Session() session: SessionContainer,
-    @Query('type') type: ProjectManagementSystemTypeEnum,
-  ): Promise<BoardDto[]> {
+  async getBoards(@Session() session: SessionContainer): Promise<BoardDto[]> {
     const userId = session.getUserId();
-    switch (type) {
-      case ProjectManagementSystemTypeEnum.Trello:
-        this.boardsContext.boardsStrategy = new TrelloBoardsStrategy(
-          this.trelloApi,
-          this.prismaService,
-        );
-        break;
-      case ProjectManagementSystemTypeEnum.Jira:
-        this.boardsContext.boardsStrategy = new JiraBoardsStrategy(
-          this.jiraApi,
-          this.prismaService,
-        );
-        break;
-      case ProjectManagementSystemTypeEnum.Asana:
-        this.boardsContext.boardsStrategy = new AsanaBoardsStrategy(
-          this.asanaApi,
-          this.prismaService,
-        );
-        break;
-      default:
-        return [];
-    }
+    this.boardsContext.boardsStrategy = new TrelloBoardsStrategy(
+      this.trelloApi,
+      this.prismaService,
+    );
     return await this.boardsContext.getBoards(userId);
   }
 
