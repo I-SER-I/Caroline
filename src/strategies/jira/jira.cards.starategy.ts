@@ -64,7 +64,7 @@ export class JiraCardsStrategy implements CardsStrategy {
     return cards.map((issue) => ({
       id: issue.id,
       title: issue.fields?.summary,
-      workers: issue.fields.assignee?.accountId,
+      workers: [issue.fields.assignee?.accountId],
       tags: issue.fields.labels,
       position: {
         x: carolineCardsPositions.filter(

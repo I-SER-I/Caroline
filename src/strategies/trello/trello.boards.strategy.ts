@@ -18,7 +18,7 @@ export class TrelloBoardsStrategy implements BoardsStrategy {
     if (boardFilteredArray.length === 0) {
       throw new BadRequestException('Board not found');
     }
-    let project = await this.prismaService.project.findFirst({
+    const project = await this.prismaService.project.findFirst({
       where: {
         userId: userId,
         boardId: boardFilteredArray[0].id,
@@ -28,14 +28,15 @@ export class TrelloBoardsStrategy implements BoardsStrategy {
     if (project !== null) {
       throw new BadRequestException('Board already exists');
     }
-
-    project = new BoardDto();
-    project.userId = userId;
-    project.boardId = boardFilteredArray[0].id;
-    project.title = boardFilteredArray[0].name;
-    project.serviceName = 'trello';
+    console.log(boardUrl);
     return await this.prismaService.project.create({
-      data: project,
+      data: {
+        userId: userId,
+        boardId: boardFilteredArray[0].id,
+        title: boardFilteredArray[0].name,
+        url: boardUrl,
+        serviceName: 'trello',
+      },
     });
   }
 

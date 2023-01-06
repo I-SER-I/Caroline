@@ -7,7 +7,7 @@ export class JiraStatesStrategy implements StatesStrategy {
 
   async getBoardStates(userId: string, boardId: string): Promise<StateDto[]> {
     const jira = await this.jiraApi.createJira(userId);
-    const states = await jira.statusCategory.getAllStatusCategories();
+    const states = await jira.status.getAllStatuses();
     return states.map((state) => ({
       id: state.id,
       name: state.name,

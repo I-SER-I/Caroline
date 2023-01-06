@@ -19,8 +19,8 @@ export class AsanaCardsStrategy implements CardsStrategy {
           (
             await asana.tasks.getDependentsForTask(card.gid)
           ).data.map((dependent) => ({
-            from: card.gid,
-            to: dependent.gid,
+            source: card.gid,
+            target: dependent.gid,
           })),
         ),
       )

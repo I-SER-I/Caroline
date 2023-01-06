@@ -22,7 +22,7 @@ export class JiraBoardsStrategy implements BoardsStrategy {
     const project = await this.prismaService.project.findFirst({
       where: {
         userId: userId,
-        boardId: boardId,
+        boardId: board.location.projectId,
       },
     });
 
@@ -32,8 +32,9 @@ export class JiraBoardsStrategy implements BoardsStrategy {
     return await this.prismaService.project.create({
       data: {
         userId: userId,
-        boardId: boardId,
+        boardId: board.location.projectId,
         title: board.name,
+        url: boardUrl,
         serviceName: 'jira',
       },
     });

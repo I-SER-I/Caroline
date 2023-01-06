@@ -34,6 +34,7 @@ export class AsanaBoardsStrategy implements BoardsStrategy {
         userId: userId,
         boardId: boardId,
         title: board.name,
+        url: boardUrl,
         serviceName: 'asana',
       },
     });
